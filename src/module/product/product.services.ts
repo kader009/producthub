@@ -6,6 +6,26 @@ const CreateProduct = async function (product: TProduct) {
   return result;
 };
 
+const getAllProduct = async function () {
+  const result = await TProductModel.find();
+  return result;
+};
+
+const getSingleProduct = async (id: string) => {
+  const result = TProductModel.findById(id);
+  return result;
+};
+
+const updateSingleProduct = async (payload: TProduct, id: string) => {
+  const result = await TProductModel.findByIdAndUpdate(id, payload, {
+    new: true,
+  });
+  return result;
+};
+
 export const ProductService = {
   CreateProduct,
+  getAllProduct,
+  getSingleProduct,
+  updateSingleProduct,
 };
