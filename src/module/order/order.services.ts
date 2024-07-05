@@ -6,6 +6,22 @@ const CreateOrder = async function (order: TOrder) {
   return result;
 };
 
+const getAllOrder = async function (searchTerm:string) {
+  const pipeline:any[] = [
+    {
+      $project:{
+        _id:0
+      }
+    }
+  ]
+  if(searchTerm){
+    pipeline.unshift({$match:{$text:{$search: searchTerm}}})
+  }
+  const result = await OrderModel.aggregate(pipeline);
+  return result;
+};
+
 export const OrderService = {
   CreateOrder,
+  getAllOrder
 };

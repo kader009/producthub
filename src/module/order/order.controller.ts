@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { OrderService } from './order.services';
 import { OrderValidation } from './order.Validation';
+import { sanitizeDbData } from '../../utils/handledata';
 
 const CreateOrders = async function (req: Request, res: Response) {
   try {
@@ -22,6 +23,27 @@ const CreateOrders = async function (req: Request, res: Response) {
   }
 };
 
+const GetAllOrder = async function (req: Request, res: Response) {
+  try {
+    const { searchTerm } = req.query;
+    const result = await OrderService.getAllOrder(searchTerm as string);
+    const sanitize = sanitizeDbData(result);
+
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: sanitize,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+      error: error,
+    });
+  }
+};
+
 export const OrderController = {
   CreateOrders,
+  GetAllOrder
 };
