@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import { ProductService } from './product.services';
 import { ProductZodValidation } from './product.validation';
-import { sanitizeData } from '../../utils/handledata';
+import { sanitizeDbData } from '../../utils/handledata';
 
 const CreateProducts = async function (req: Request, res: Response) {
   try {
     const ProductData = req.body.data;
     const zodValidation = ProductZodValidation.parse(ProductData);
     const result = await ProductService.CreateProduct(zodValidation);
-    const newlyCreate = sanitizeData(result)
+    const newlyCreate = sanitizeDbData(result);
 
     res.status(200).json({
       success: true,
@@ -28,7 +28,7 @@ const GetAllProducts = async function (req: Request, res: Response) {
   try {
     const { searchTerm } = req.query;
     const result = await ProductService.getAllProduct(searchTerm as string);
-    const sanitize = sanitizeData(result)
+    const sanitize = sanitizeDbData(result);
 
     res.status(200).json({
       success: true,
@@ -48,7 +48,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const result = await ProductService.getSingleProduct(productId);
-    const sanitize = sanitizeData(result)
+    const sanitize = sanitizeDbData(result);
 
     res.status(200).json({
       success: true,
@@ -70,8 +70,7 @@ const updateSingleProduct = async (req: Request, res: Response) => {
       req.body.data,
       req.params.productId,
     );
-    const sanitize = sanitizeData(result)
-    
+    const sanitize = sanitizeDbData(result);
 
     res.status(200).json({
       success: true,

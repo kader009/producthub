@@ -1,4 +1,5 @@
-export function sanitizeData(data: any) {
+// sanitization for data
+export function sanitizeDbData(data: any) {
   if (Array.isArray(data)) {
     return data.map((item) => sanitizeAll(item));
   } else {
@@ -6,6 +7,7 @@ export function sanitizeData(data: any) {
   }
 }
 
+// handle every of for remove id,_id,__v
 function sanitizeAll(doc: any) {
   const obj = doc.toObject ? doc.toObject() : { ...doc };
   delete obj._id;

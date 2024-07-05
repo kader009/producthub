@@ -11,36 +11,14 @@ const InventoryScheme = new Schema<TInventory>({
   inStock: { type: Boolean, required: true },
 });
 
-const ProductSchema = new Schema<TProduct, TVariant, TInventory>(
-  {
-    name: { type: String, required: true, unique: true },
-    description: { type: String, required: true, maxlength: 500 },
-    price: { type: Number, min: 1, required: true },
-    category: { type: String, required: true },
-    tags: { type: [String], required: true },
-    variants: { type: [VariantScheme], required: true },
-    inventory: { type: InventoryScheme, required: true },
-  },
-  {
-    toJSON: {
-      virtuals: true,
-      transform: (doc, ret) => {
-        delete ret._id;
-        delete ret.__v;
-        ret.id = doc._id;
-        return ret;
-      },
-    },
-    toObject: {
-      virtuals: true,
-      transform: (doc, ret) => {
-        delete ret._id;
-        delete ret.__v;
-        ret.id = doc._id;
-        return ret;
-      },
-    },
-  },
-);
+const ProductSchema = new Schema<TProduct, TVariant, TInventory>({
+  name: { type: String, required: true, unique: true },
+  description: { type: String, required: true, maxlength: 500 },
+  price: { type: Number, min: 1, required: true },
+  category: { type: String, required: true },
+  tags: { type: [String], required: true },
+  variants: { type: [VariantScheme], required: true },
+  inventory: { type: InventoryScheme, required: true },
+});
 
 export const TProductModel = model<TProduct>('Product', ProductSchema);
