@@ -19,6 +19,28 @@ const ProductSchema = new Schema<TProduct, TVariant, TInventory>({
   tags: { type: [String], required: true },
   variants: { type: [VariantScheme], required: true },
   inventory: { type: InventoryScheme, required: true },
-});
+},
+{
+  toJSON:{
+    virtuals:true,
+    transform: function(doc, ret) {
+      delete ret._id;
+      delete ret.__v;
+      ret.id = doc._id
+      return ret;
+    },
+  },
+  toObject:{
+    virtuals: true,
+    transform: function(doc, ret) {
+      delete ret._id;
+      delete ret.__v;
+      ret.id = doc._id
+      return ret;
+    },
+  }
+}
+
+);
 
 export const TProductModel = model<TProduct>('Product', ProductSchema);

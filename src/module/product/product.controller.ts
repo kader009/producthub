@@ -24,7 +24,8 @@ const CreateProducts = async function (req: Request, res: Response) {
 
 const GetAllProducts = async function (req: Request, res: Response) {
   try {
-    const result = await ProductService.getAllProduct();
+    const { searchTerm } = req.query;
+    const result = await ProductService.getAllProduct(searchTerm as string);
 
     res.status(200).json({
       success: true,
@@ -105,5 +106,5 @@ export const ProductController = {
   GetAllProducts,
   getSingleProduct,
   updateSingleProduct,
-  deleteSingleProduct
+  deleteSingleProduct,
 };

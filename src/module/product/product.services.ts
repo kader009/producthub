@@ -6,8 +6,18 @@ const CreateProduct = async function (product: TProduct) {
   return result;
 };
 
-const getAllProduct = async function () {
-  const result = await TProductModel.find();
+const getAllProduct = async function (searchTerm:string) {
+  const pipeline:any[] = [
+    {
+      $project:{
+        _id:0
+      }
+    }
+  ]
+  if(searchTerm){
+    pipeline.unshift({$match:{$text:{$search: searchTerm}}})
+  }
+  const result = await TProductModel.aggregate(pipeline);
   return result;
 };
 
@@ -28,10 +38,25 @@ const deleteSingleProduct = async (id: string) => {
   return result;
 };
 
+const searchProduct = async (searchTerm: string) => {
+  const matchSearch = new RegExp(searchTerm, 'i');
+  console.log('service', matchSearch);
+  const result = await TProductModel.find({
+    $or: [
+      { name: matchSearch },
+      { description: matchSearch },
+      { category: matchSearch },
+      { tags: matchSearch },
+    ],
+  });
+  return result;
+};
+
 export const ProductService = {
   CreateProduct,
   getAllProduct,
   getSingleProduct,
   updateSingleProduct,
   deleteSingleProduct,
+  searchProduct,
 };
