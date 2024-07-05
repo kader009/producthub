@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const OrderValidation = z.object({
+export const OrderValidation = z.object({
   email: z.string().email(),
   productId: z.string().refine((value) => {
     return /^[0-9a-fA-F]{24}$/.test(value);
