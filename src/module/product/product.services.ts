@@ -6,16 +6,17 @@ const CreateProduct = async function (product: TProduct) {
   return result;
 };
 
-const getAllProduct = async function (searchTerm:string) {
-  const pipeline:any[] = [
+// search functionality implement here
+const getAllProduct = async function (searchTerm: string) {
+  const pipeline: any[] = [
     {
-      $project:{
-        _id:0
-      }
-    }
-  ]
-  if(searchTerm){
-    pipeline.unshift({$match:{$text:{$search: searchTerm}}})
+      $project: {
+        _id: 0,
+      },
+    },
+  ];
+  if (searchTerm) {
+    pipeline.unshift({ $match: { $text: { $search: searchTerm } } });
   }
   const result = await TProductModel.aggregate(pipeline);
   return result;

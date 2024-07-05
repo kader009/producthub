@@ -1,6 +1,7 @@
 import express from 'express';
 import { OrderController } from './order.controller';
 
+// get route from express
 const router = express.Router();
 
 // post order route

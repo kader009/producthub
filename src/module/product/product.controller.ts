@@ -24,6 +24,7 @@ const CreateProducts = async function (req: Request, res: Response) {
   }
 };
 
+// search functionality implement here
 const GetAllProducts = async function (req: Request, res: Response) {
   try {
     const { searchTerm } = req.query;

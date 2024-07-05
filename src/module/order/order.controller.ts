@@ -23,6 +23,7 @@ const CreateOrders = async function (req: Request, res: Response) {
   }
 };
 
+// search functionality implement here
 const GetAllOrder = async function (req: Request, res: Response) {
   try {
     const { searchTerm } = req.query;
@@ -45,5 +46,5 @@ const GetAllOrder = async function (req: Request, res: Response) {
 
 export const OrderController = {
   CreateOrders,
-  GetAllOrder
+  GetAllOrder,
 };
