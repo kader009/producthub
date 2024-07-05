@@ -1,17 +1,19 @@
 import { Request, Response } from 'express';
 import { ProductService } from './product.services';
 import { ProductZodValidation } from './product.validation';
+import { sanitizeData } from '../../utils/handledata';
 
 const CreateProducts = async function (req: Request, res: Response) {
   try {
     const ProductData = req.body.data;
     const zodValidation = ProductZodValidation.parse(ProductData);
     const result = await ProductService.CreateProduct(zodValidation);
+    const newlyCreate = sanitizeData(result)
 
     res.status(200).json({
       success: true,
       message: 'Product created successfully!',
-      data: result,
+      data: newlyCreate,
     });
   } catch (error) {
     res.status(500).json({
@@ -26,11 +28,12 @@ const GetAllProducts = async function (req: Request, res: Response) {
   try {
     const { searchTerm } = req.query;
     const result = await ProductService.getAllProduct(searchTerm as string);
+    const sanitize = sanitizeData(result)
 
     res.status(200).json({
       success: true,
       message: 'Products fetched successfully!',
-      data: result,
+      data: sanitize,
     });
   } catch (error) {
     res.status(500).json({
@@ -45,11 +48,12 @@ const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const result = await ProductService.getSingleProduct(productId);
+    const sanitize = sanitizeData(result)
 
     res.status(200).json({
       success: true,
       message: 'Product fetched successfully!',
-      data: result,
+      data: sanitize,
     });
   } catch (error) {
     res.status(500).json({
@@ -66,11 +70,13 @@ const updateSingleProduct = async (req: Request, res: Response) => {
       req.body.data,
       req.params.productId,
     );
+    const sanitize = sanitizeData(result)
+    
 
     res.status(200).json({
       success: true,
       message: 'Product updated successfully!',
-      data: result,
+      data: sanitize,
     });
   } catch (error) {
     res.status(500).json({
