@@ -11,13 +11,18 @@ const getAllOrder = async function (searchTerm: string) {
   const pipeline: any[] = [
     {
       $project: {
-        _id: 0,
+        email: 1,
+        productId:1, 
+        price:1,
+        quantity:1
       },
     },
   ];
+
   if (searchTerm) {
-    pipeline.unshift({ $match: { $text: { $search: searchTerm } } });
+    pipeline.unshift({ $match: { $text: { email: searchTerm } } });
   }
+
   const result = await OrderModel.aggregate(pipeline);
   return result;
 };

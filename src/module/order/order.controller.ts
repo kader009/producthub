@@ -32,7 +32,9 @@ const GetAllOrder = async function (req: Request, res: Response) {
 
     res.status(200).json({
       success: true,
-      message: 'Order fetched successfully!',
+      message: searchTerm
+        ? 'Orders fetched successfully for user email!' 
+        : 'Order fetched successfully!',
       data: sanitize,
     });
   } catch (error) {
