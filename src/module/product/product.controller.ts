@@ -5,15 +5,15 @@ import { sanitizeDbData } from '../../utils/handledata';
 
 const CreateProducts = async function (req: Request, res: Response) {
   try {
-    const ProductData = req.body.data;
+    const ProductData = req.body;
     const zodValidation = ProductZodValidation.parse(ProductData);
     const result = await ProductService.CreateProduct(zodValidation);
-    const newlyCreate = sanitizeDbData(result);
+    // const newlyCreate = sanitizeDbData(result);
 
     res.status(200).json({
       success: true,
       message: 'Product created successfully!',
-      data: newlyCreate,
+      data: result,
     });
   } catch (error) {
     res.status(500).json({
@@ -70,7 +70,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
 const updateSingleProduct = async (req: Request, res: Response) => {
   try {
     const result = await ProductService.updateSingleProduct(
-      req.body.data,
+      req.body,
       req.params.productId,
     );
     const sanitize = sanitizeDbData(result);
@@ -92,7 +92,7 @@ const updateSingleProduct = async (req: Request, res: Response) => {
 const deleteSingleProduct = async (req: Request, res: Response) => {
   try {
     const result = await ProductService.deleteSingleProduct(
-      req.params.productId,
+      req.body.productId,
     );
 
     res.status(200).json({

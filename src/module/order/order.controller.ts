@@ -5,7 +5,7 @@ import { sanitizeDbData } from '../../utils/handledata';
 
 const CreateOrders = async function (req: Request, res: Response) {
   try {
-    const OrderData = req.body.data;
+    const OrderData = req.body;
     const zodValidation = OrderValidation.parse(OrderData);
     const result = await OrderService.CreateOrder(zodValidation);
 

@@ -34,8 +34,8 @@ const updateSingleProduct = async (payload: TProduct, id: string) => {
   return result;
 };
 
-const deleteSingleProduct = async (id: string) => {
-  const result = await TProductModel.findByIdAndDelete(id);
+const deleteSingleProduct = async (_id: string) => {
+  const result = await TProductModel.findByIdAndDelete(_id);
   return result;
 };
 
